@@ -1,16 +1,39 @@
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button, Form, Input, message, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import checkUserStatus from "../utils/checkUserStatus"
+import dynamic from "next/dynamic";
+import 'react-quill/dist/quill.snow.css';
+
 const axios = require('axios');
 
-export default function home({ }) {
+export default function Home({ data }) {
     const [value, setValue] = useState('');
+    const [token, setToken] = useState(false)
+    const [title, setTitle] = useState('')
     const [messageApi, contextHolder] = message.useMessage();
     const [loadStatus, setLoadStatus] = useState(false)
     const [blurState, setBlurState] = useState({ filter: 'blur(0)' })
+    const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
+
+    useEffect(() => {
+        if (data) {
+            setValue(data.message);
+            setTitle(data.title)
+        }
+    }, [data]);
+
+    useEffect(() => {
+        let str = localStorage.getItem('token_info') || sessionStorage.getItem('token_info');
+        if (str) {
+            str = JSON.parse(str);
+            setToken(str)
+            if (!checkUserStatus(JSON.stringify(str))) {
+                setToken(false)
+            }
+        }
+    }, [])
+
     const antIcon = (
         <LoadingOutlined
             style={{
@@ -42,25 +65,25 @@ export default function home({ }) {
         })
     };
 
-    let token
-    if (checkUserStatus()) {
-        token = checkUserStatus()
-    }
 
-    const submitPost = async (data) => {
-
+    const submitPost = async (val) => {
+        let apiUrl = 'https://blogapi-production-d43c.up.railway.app/post/create';
+        if (data) {
+            apiUrl = `https://blogapi-production-d43c.up.railway.app/post/${data._id}/update`
+        }
         try {
             setLoadStatus(true)
             setBlurState({
                 filter: 'blur(4px)'
             })
-            const resp = await axios.post(`https://blogapi-production-d43c.up.railway.app/post/create`,
+
+            const resp = await axios.post(apiUrl,
                 {
-                    title: 'Loren Ipsum',
-                    message: data
+                    title: val.title,
+                    message: value
                 }, {
                 headers: {
-                    'Authorization': `Bearer ${token.token}`
+                    'authorization': `Bearer ${token.token}`
                 }
             })
             if (resp) {
@@ -92,9 +115,13 @@ export default function home({ }) {
                     wrapperCol={{
                         span: 16,
                     }}
-
+                    fields={[
+                        {
+                            name: ["title"],
+                            value: title
+                        },
+                    ]}
                     onFinish={submitPost}
-                    // onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
                     <Form.Item
@@ -121,7 +148,6 @@ export default function home({ }) {
                     </Form.Item>
                 </Form>
             </div>
-            {/* <Button onClick={() => submitPost(value)}>Submit</Button> */}
         </div>
     </>
 }

@@ -8,7 +8,9 @@ export default function Home() {
   const [user, setUser] = useState(false)
   const [showlogin, setshowLogin] = useState(false)
   useEffect(() => {
-    if (Boolean(checkUserStatus()))
+
+    let token = localStorage.getItem('token_info') || sessionStorage.getItem('token_info');
+    if ((checkUserStatus(token)))
       setUser(true)
     else {
       setshowLogin(true)
