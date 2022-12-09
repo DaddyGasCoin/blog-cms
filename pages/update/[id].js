@@ -1,14 +1,7 @@
 import axios from "axios"
-// import { useState, useMemo } from 'react';
-// import { Button, Form, Input, message, Spin } from 'antd';
-// import { LoadingOutlined } from '@ant-design/icons';
-// import ReactQuill from 'react-quill';
-// import dynamic from "next/dynamic";
-// import 'react-quill/dist/quill.snow.css';
 import Home from "../home";
 
-export default function delpost({ postData }) {
-
+export default function updatepost({ postData }) {
     return <Home data={postData.post} />
 }
 

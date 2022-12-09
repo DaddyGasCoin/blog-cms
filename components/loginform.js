@@ -1,9 +1,8 @@
 import { Button, Checkbox, Form, Input, message, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { useState, UseContext } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router'
 const axios = require('axios');
-
 
 export default function LoginForm() {
     const [messageApi, contextHolder] = message.useMessage();
@@ -74,12 +73,10 @@ export default function LoginForm() {
                     sessionStorage.setItem('token_info', JSON.stringify(token_info))
                 }
                 router.reload();
-                // setUser(true)
                 success(values.username)
             }
         } catch (err) {
             // Handle Error Here
-            console.log(err)
             error()
         }
     };

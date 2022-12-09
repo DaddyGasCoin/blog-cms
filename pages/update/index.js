@@ -14,7 +14,6 @@ export default function posts({ data }) {
 export async function getStaticProps() {
     const response = await axios.get('https://blogapi-production-d43c.up.railway.app/posts')
     const data = await response.data.posts
-
     return {
         props: {
             data
