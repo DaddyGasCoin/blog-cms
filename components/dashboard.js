@@ -13,6 +13,9 @@ export default function DashBoard() {
             <Link href="/update">
                 <Button type="primary">Update post</Button>
             </Link>
+            <Link href="/delete/comment">
+                <Button type="primary">Update comments</Button>
+            </Link>
         </>
         // TODO: ADD Buttonds to manage posts and comments
     )
