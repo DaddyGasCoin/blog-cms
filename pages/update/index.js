@@ -4,8 +4,8 @@ import DisplayPostList from "../../components/DisplayPostList";
 
 export default function posts({ data }) {
 
-    return <div className="w-full flex flex-col items-center">
-        <div className="flex flex-col w-[max(45ch,_50%)] bg-gray-50 p-5 ">
+    return <div className="w-full flex flex-col items-center mt-20">
+        <div className="flex flex-col w-[max(45ch,_50%)] bg-gray-50 p-5 items-center ">
             {data ? <DisplayPostList posts={data} /> : <Skeleton active />}
         </div>
     </div>

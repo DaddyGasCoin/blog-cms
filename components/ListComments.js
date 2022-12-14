@@ -77,7 +77,7 @@ export default function DisplayCommentsList({ comments }) {
         }
     }
 
-    return (<div className="flex flex-col">
+    return (<div className="flex flex-col cursor-pointer">
         {contextHolder}
         {
             _comments.map((comment) => {
