@@ -1,4 +1,3 @@
-import axios from "axios";
 import Home from "../home";
 
 export default function updatepost({ postData }) {
@@ -6,10 +5,9 @@ export default function updatepost({ postData }) {
 }
 
 export async function getStaticPaths() {
-  const response = await axios.get(
-    "https://blog-backend-4u64.onrender.com/posts"
-  );
-  const data = await response.data.posts;
+  const response = await fetch("https://blog-backend-4u64.onrender.com/posts");
+  let data = await response.json();
+  data = data.posts;
   const idlist = data.map((post) => ({ params: { id: post._id } }));
 
   return {
@@ -19,10 +17,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const res = await axios.get(
+  const res = await fetch(
     `https://blog-backend-4u64.onrender.com/post/${params.id}`
   );
-  const postData = res.data;
+  const postData = await res.json();
   return {
     props: {
       postData,

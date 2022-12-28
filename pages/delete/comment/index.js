@@ -1,6 +1,4 @@
-import axios from "axios";
 import { Skeleton } from "antd";
-// import DisplayPostList from "../../components/DisplayPostList";
 import DisplayCommentsList from "../../../components/ListComments";
 
 export default function comments({ data }) {
@@ -14,10 +12,11 @@ export default function comments({ data }) {
 }
 
 export async function getStaticProps() {
-  const response = await axios.get(
+  const response = await fetch(
     "https://blog-backend-4u64.onrender.com/comments"
   );
-  const data = await response.data.comments;
+  let data = await response.json();
+  data = data.comments;
   return {
     props: {
       data,

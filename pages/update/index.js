@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Skeleton } from "antd";
 import DisplayPostList from "../../components/DisplayPostList";
 
@@ -13,10 +12,9 @@ export default function posts({ data }) {
 }
 
 export async function getStaticProps() {
-  const response = await axios.get(
-    "https://blog-backend-4u64.onrender.com/posts"
-  );
-  const data = await response.data.posts;
+  const response = await fetch("https://blog-backend-4u64.onrender.com/posts");
+  let data = await response.json();
+  data = data.posts;
   return {
     props: {
       data,
