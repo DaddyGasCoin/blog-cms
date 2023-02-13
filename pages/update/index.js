@@ -11,7 +11,7 @@ export default function posts({ data }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const response = await fetch("https://blog-backend-4u64.onrender.com/posts");
   let data = await response.json();
   data = data.posts;
